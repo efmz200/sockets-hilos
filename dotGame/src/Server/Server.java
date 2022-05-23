@@ -12,6 +12,7 @@ public class Server implements Runnable{
 
     public Server(Dot d){
         dot = d;
+        System.out.println("Server Online");
         try {
             server = new ServerSocket(4444);
         } catch (Exception e) {
@@ -30,7 +31,7 @@ public class Server implements Runnable{
                 client.close();
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            System.out.println(e);
         }
 
     }

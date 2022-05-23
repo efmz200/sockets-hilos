@@ -1,11 +1,13 @@
 package Server;
 import java.awt.event.*;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import Common.Casilla;
+
 import Common.Constantes;
 import Common.Dot;
 import Common.Mapa;
@@ -16,6 +18,9 @@ public class GUI implements ActionListener, Constantes{
     JButton next;
     Mapa mapa;
     Dot dot;
+
+    Socket client;
+    ObjectOutputStream output;
     
     public GUI(){
 
@@ -53,6 +58,17 @@ public class GUI implements ActionListener, Constantes{
     public void moveDot(){
         mapa.tablero[dot.lastPosition[X]][dot.lastPosition[Y]].clearDot();
         mapa.tablero[dot.currentPosition[X]][dot.currentPosition[Y]].setAsDot();
+        try {
+            client = new Socket("127.0.0.1", 4446);
+            output = new ObjectOutputStream(client.getOutputStream());
+            output.writeObject(dot);
+            output.flush();
+            output.close();
+            client.close();
+        } catch (Exception e) {                
+            System.out.println("Error del servidor del servidor");
+            System.out.println(e);
+        }
     }
 
     public void run(){
@@ -64,6 +80,7 @@ public class GUI implements ActionListener, Constantes{
             } catch (Exception e) {
                 //TODO: handle exception
             }
+            
         }
     }
 

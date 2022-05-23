@@ -44,6 +44,12 @@ public class GUI implements ActionListener, Constantes{
         ventana.setVisible(true);
 
         target = new Target();
+        dot= new Dot();
+        Server server = new Server(dot);
+        Thread hilo = new Thread(server);
+        hilo.start();
+        
+        run();
 
 
     }
@@ -73,9 +79,10 @@ public class GUI implements ActionListener, Constantes{
     }
 
     public void run(){
-        while (true){
-            dot.move();
+        while (true){ 
             moveDot();
+            //System.out.println(dot.currentPosition[X]); 
+            //System.out.println("posicion");          
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
